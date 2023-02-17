@@ -6,10 +6,12 @@ class User < ApplicationRecord
 
   has_one_attached :image
 
-  has_many :onsens, through: :favorites
-  has_many :onsens, dependent: :destroy
-  has_many :onsens, through: :visits
-  has_many :onsens, dependent: :destroy
-  has_many :onsens, through: :reviews
-  has_many :onsens, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :onsens, through: :favorites, dependent: :destroy
+
+  has_many :visits, dependent: :destroy
+  has_many :onsens, through: :visits, dependent: :destroy
+
+  has_many :reviews, dependent: :destroy
+  has_many :onsens, through: :reviews, dependent: :destroy
 end

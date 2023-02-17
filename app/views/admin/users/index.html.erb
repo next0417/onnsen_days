@@ -1,0 +1,30 @@
+<div class="container">
+  <h1 class="mt-4 mb-3">会員一覧</h1>
+  <div class="row">
+    <table class="table table-hover table-inverse">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>会員名</th>
+          <th>レヴュー件数</th>
+          <th>会員ステータス</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |f| %>
+          <tr>
+            <td><%= f.id %></td>
+            <td>
+              <%= link_to admin_user_path(f.id) do %>
+                <%= f.name %>
+              <% end %>
+            </td>
+            <td><%= f.reviews.count %>件</td>
+            <td><%= f.is_deleted %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @users %>
+  </div>
+</div>

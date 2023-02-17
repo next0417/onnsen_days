@@ -16,7 +16,9 @@ module OnnsenDays
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = "Tokyo"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.i18n.default_locale = :ja
+    config.active_storage.replace_on_assign_to_many = false
   end
 end

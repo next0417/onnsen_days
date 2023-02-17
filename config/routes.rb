@@ -4,10 +4,9 @@ Rails.application.routes.draw do
   }
 
   root to: "public/homes#top"
-
+  post '/homes/guest_sign_in', to: 'public/homes#guest_sign_in'
 
   scope module: :public do
-    post '/homes/guest_sign_in', to: 'homes#guest_sign_in'
     get '/users/mypage' => 'users#show'
     get '/users/mypage/edit' => 'users#edit'
     patch '/users/information' => 'users#update'

@@ -1,4 +1,5 @@
 class Senshitu < ApplicationRecord
-  has_many :onsens, through: :onsen_senshitus
-  has_many :onsens, dependent: :destroy
+  has_many :onsen_senshitus, dependent: :destroy
+  has_many :onsens, through: :onsen_senshitus, dependent: :destroy
+
 end

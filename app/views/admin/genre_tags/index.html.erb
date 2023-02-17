@@ -1,0 +1,63 @@
+<div class="container">
+  <h1 class="mt-4 mb-3">泉質・効能一覧</h1>
+  <hr>
+  <div>
+     <h2>泉質</h2>
+  </div>
+
+  <div class="row mt-4">
+    <div class="offset-sm-1 col-sm-4">
+      <%= form_with model: @senshitu, url: admin_senshitus_path, class: "form-inline" do |f| %>
+        <div class="form-group">
+          <%= f.text_field :senshitu_name, :placeholder =>"泉質", class: "form-control mr-2" %>
+        </div>
+        <%= f.submit "追加", class: 'btn btn-outline-secondary' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="offset-sm-1 col-sm-11">
+      <div class="d-flex justify-content-between">
+        <% @senshitus.each do |senshitu| %>
+          <div class="text-center">
+            <%= senshitu.senshitu_name %><br>
+            <%= link_to "削除", admin_senshitu_path(senshitu.id), method: :delete, class: 'btn btn-sm btn-danger', "data-confirm" => "本当に削除しますか？" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center mt-4">
+    <%= paginate @senshitus, :param_name => 'senshitu_page' %>
+  </div>
+  <hr>
+  <div>
+     <h2>効能</h2>
+  </div>
+
+  <div class="row mt-4">
+    <div class="offset-sm-1 col-sm-4">
+      <%= form_with model: @kounou, url: admin_kounous_path, class: "form-inline" do |f| %>
+          <div class="form-group">
+            <%= f.text_field :kounou_name, :placeholder =>"効能", class: "form-control mr-2" %>
+          </div>
+          <%= f.submit "追加", class: 'btn btn-outline-secondary' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="offset-sm-1 col-sm-11">
+      <div class="d-flex justify-content-between">
+        <% @kounous.each do |kounou| %>
+          <div class="text-center">
+            <%= kounou.kounou_name %><br>
+            <%= link_to "削除", admin_kounou_path(kounou.id), method: :delete, class: 'btn btn-sm btn-danger', "data-confirm" => "本当に削除しますか？" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center mt-4">
+    <%= paginate @kounous, :param_name => 'kounou_page' %>
+  </div>
+</div>

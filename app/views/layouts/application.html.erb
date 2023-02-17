@@ -10,9 +10,9 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="fw-bolder">
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light">
+      <nav class="nav navbar navbar-expand-lg navbar-light">
         <div class="container">
           <a class="navbar-brand">
             <h4 class="text-white font-italic">OnnsenDays</h4>
@@ -35,6 +35,9 @@
                 </li>
               <% elsif user_signed_in? %>
                 <li class="nav-item">
+                  <%= link_to "Top", root_path, class: 'btn nav-link text-black' %>
+                </li>
+                <li class="nav-item">
                   <%= link_to "マイページ", users_mypage_path, class: 'btn nav-link text-black' %>
                 </li>
                 <li class="nav-item">
@@ -47,7 +50,7 @@
                   <%= link_to "温泉一覧", onsens_path, class: 'btn nav-link text-black' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'btn nav-link text-black' %>
+                  <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'btn nav-link text-black' %>
                 </li>
               <% else %>
                 <li class="nav-item">

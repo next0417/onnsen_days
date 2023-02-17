@@ -1,0 +1,219 @@
+<% if @onsen.errors.any? %>
+  <div class = "alert">
+    <ul>
+      <% @onsen.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<div class="container">
+  <h1 class="mt-4 mb-3">温泉編集</h1>
+  <hr>
+  <%= form_with model: @onsen, url: admin_onsen_path do |f| %>
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="form-group row">
+        <%= f.label :name, "温泉名", class: "col-3 col-form-label pr-0 pl-4" %>
+        <div class="col-9">
+          <%= f.text_field :name, :placeholder =>"温泉名", class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= f.label :introduction, "特徴、営業日、金額等", class: "col-3 col-form-label pr-0 pl-4" %>
+        <div class="col-9">
+          <%= f.text_area :introduction, :placeholder =>"特徴、営業日、金額等", class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= f.label :is_active, "営業状況", class: "col-3 col-form-label pr-0 pl-4 pt-0" %>
+        <div class="col-9">
+          <span class="mr-2">
+            <%= f.radio_button :is_active, 'open' %>
+            <%= f.label :is_active, "営業中" %>
+          </span>
+          <span class="mr-2">
+            <%= f.radio_button :is_active, 'rest' %>
+            <%= f.label :is_active, "休業中" %>
+          </span>
+          <span>
+            <%= f.radio_button :is_active, 'closed' %>
+            <%= f.label :is_active, "閉店" %>
+          </span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= f.label :images, "画像", class: "col-3 col-form-label pr-0 pl-4 pt-0" %>
+        <div class="col-9">
+          4枚まで投稿できます
+          <%= f.file_field :images, direct_upload: true, multiple: true %>
+          <% if @onsen.images.attached? %>
+            <p>選択済みの画像（削除する画像にチェックをつけてください）</p>
+            <div class="row row-sm-cols-2">
+            <% @onsen.images.select {|image| image.id != nil}.each do |image| %>
+              <%= f.check_box :image_ids, { multiple: true }, image.id, false %>
+              <label for="onsen_image_ids_<%= image.id %>" >
+                <%= image_tag image, size: '200x100', class: "onsen_image" %>
+                <%#= image_tag image, size: '200x100', class: "mr-1 mb-1" %>
+              </label>
+            <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= f.label :senshitu_name, "泉質", class: "col-3 col-form-label pr-0 pl-4" %>
+        <div class="col-9">
+          <div class='form-group row row-cols-2'>
+            <%= f.collection_check_boxes(:senshitu_ids, Senshitu.all, :id, :senshitu_name) do |senshitu| %>
+            <div class='form-check col'>
+              <%= senshitu.label class: 'form-check-label' do %>
+                <%= senshitu.check_box class: 'form-check-input' %>
+                <%= senshitu.text %>
+              <% end %>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= f.label :kounou_name, "効能", class: "col-3 col-form-label pr-0 pl-4" %>
+        <div class="col-9">
+          <div class='form-group row row-cols-2'>
+            <%= f.collection_check_boxes(:kounou_ids, Kounou.all, :id, :kounou_name) do |kounou| %>
+            <div class='form-check col'>
+              <%= kounou.label class: 'form-check-label' do %>
+                <%= kounou.check_box class: 'form-check-input' %>
+                <%= kounou.text %>
+              <% end %>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group row">
+        <%= f.label :latitude, "経度", class: "col-2 col-form-label pr-0 pl-5" %>
+        <div class="col-10">
+          <%= f.text_field :latitude, :placeholder =>"経度", id: :lat, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= f.label :longitude, "緯度", class: "col-2 col-form-label pr-0 pl-5" %>
+        <div class="col-10">
+          <%= f.text_field :longitude, :placeholder =>"緯度", id: :lng, class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="offset-2"></label>
+        <div class="col-10">
+          <input class="form-control mb-2" id="address" type="textbox" placeholder="GeekSalon">
+          <input type="button" value="検索" onclick="codeAddress()">
+          <p>マーカーをドラック＆ドロップで位置の調整ができます。<p>
+          <%= f.hidden_field :address, id: :address_text %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label pr-0 pl-5">MAP</label>
+        <div class="col-10">
+          <div id='map' style="width: 450px; height: 400px;"></div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="offset-2"></label>
+        <div class="col-10">
+          <%= f.submit "更新", class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<script>
+let map
+let marker
+function initMap(){
+  geocoder = new google.maps.Geocoder()
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center:  {lat: 35.6803997, lng:139.7690174},
+    zoom: 15,
+
+  });
+}
+
+let geocoder
+let aft
+function codeAddress(){
+  let inputAddress = document.getElementById('address').value;
+  geocoder.geocode( { 'address': inputAddress}, function(results, status) {
+    if (status == 'OK') {
+        if (aft == true){
+            marker.setMap(null);
+        }
+
+        map.setCenter(results[0].geometry.location);
+            marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+            draggable: true
+        });
+
+        aft = true
+
+        document.getElementById('lat').value = results[0].geometry.location.lat();
+        document.getElementById('lng').value = results[0].geometry.location.lng();
+        var requestAjax = function(endpoint, callback) {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function(){
+            if (this.readyState==4 && this.status==200) {
+              callback(this.response);
+            }
+          };
+          xhr.responseType = 'json';
+          xhr.open('GET',endpoint,true);
+          xhr.send();
+        };
+        var latitude = results[0].geometry.location.lat();
+        var longitude = results[0].geometry.location.lng();
+        var apiKey = '<%= ENV["GOOGLEAPIKEY"] %>';
+        var requestURL = 'https://maps.googleapis.com/maps/api/geocode/json?language=ja&sensor=false';
+        requestURL += '&latlng=' + latitude + ',' + longitude;
+        requestURL += '&key=' + apiKey;
+        requestAjax(requestURL, function(response){
+          if (response.error_message) {
+            console.log(response.error_message);
+          } else {
+            document.getElementById('address_text').value = response.results[0]['formatted_address'];
+            // var formattedAddress = response.results[0]['formatted_address'];
+            // // 住所は「日本、〒100-0005 東京都千代田区丸の内一丁目」の形式
+            // var data = formattedAddress.split(' ');
+            // var address_text = "";
+            // if (data[1]) {
+            //   // id=addressに住所を設定する
+            //   address_text += data[1];
+            // }
+            // if (data[2]) {
+            //   // id=addressに住所を設定する
+            //   address_text += data[2];
+            // }
+            // console.log(address_text);
+            // document.getElementById('address_text').value = address_text;
+          }
+        });
+
+        google.maps.event.addListener( marker, 'dragend', function(ev){
+            document.getElementById('lat').value = ev.latLng.lat();
+            document.getElementById('lng').value = ev.latLng.lng();
+        });
+    } else {
+      alert('該当する結果がありませんでした：' + status);
+    }
+  });
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLEAPIKEY"] %>&callback=initMap" async defer></script>

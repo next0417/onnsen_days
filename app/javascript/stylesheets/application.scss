@@ -1,27 +1,20 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 
-div.title.row {
-  margin: 10px 0;
-}
 body {
   font-family: serif;
-  font-weight: bolder;
 }
 
-nav {
+.nav {
   background-color: #66a09e;
 }
 
-table.user_sign_up {
-  border-collapse: separate;
-  border-spacing: 10px;
+.onsen_image {
+  padding-left: 3px;
+  padding-right: 3px;
 }
-
-table.user_sign_up th {
-  width: 28%;
-}
-
-div.profile_image {
-  margin: 10px 0 5px;
+.card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

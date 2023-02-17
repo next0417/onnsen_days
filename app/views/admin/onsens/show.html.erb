@@ -1,0 +1,138 @@
+<div class="container">
+  <h1 class="mt-4 mb-3">
+    温泉詳細
+    <%= link_to "編集", edit_admin_onsen_path(@onsen.id), class: "btn btn-success" %>
+  </h1>
+  <hr>
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="row mb-4">
+        <div class="col-md-3">温泉名</div>
+        <div class="col-md-9"><%= @onsen.name %></div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-3">特徴、営業日、金額等</div>
+        <div class="col-md-9"><%= simple_format(@onsen.introduction) %></div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-3">営業状況</div>
+        <div class="col-md-9"><%= @onsen.is_active_i18n %></div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-3">画像</div>
+        <div class="col-md-9">
+          <% if @onsen.images.attached? %>
+          <div class="row row-sm-cols-2">
+            <% @onsen.images.each do |image| %>
+              <%= image_tag image, width: 200, height: 100, class: "mr-2 mb-2" %>
+            <% end %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-3">泉質</div>
+        <div class="col-md-9">
+          <% @onsen.senshitus.each do |senshitu| %>
+            <span><%= senshitu.senshitu_name %></span>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">効能</div>
+        <div class="col-md-9">
+          <% @onsen.kounous.each do |kounou| %>
+            <span><%= kounou.kounou_name %></span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <!--<div class="row mb-4">-->
+      <!--  <div class="offset-md-1 col-md-2">MAP</div>-->
+      <!--</div>-->
+      <div class="row mb-4">
+        <div class="offset-md-1 col-md-2">住所</div>
+        <div class="col-md-9"><%= @onsen.address.gsub(/日本、/, "") %></div>
+      </div>
+      <div class="row mb-4">
+        <div class="offset-md-1 col-md-2">MAP</div>
+        <div class="col-md-9">
+          <div id='map' style="width: 400px; height: 400px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let map
+let marker
+function initMap(){
+  geocoder = new google.maps.Geocoder()
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center:  {lat: <%= @onsen.latitude %>, lng: <%= @onsen.longitude %>},
+    zoom: 15,
+
+  });
+}
+
+let geocoder
+let aft
+function codeAddress(){
+  let inputAddress = document.getElementById('address').value;
+  geocoder.geocode( { 'address': inputAddress}, function(results, status) {
+    if (status == 'OK') {
+        if (aft == true){
+            marker.setMap(null);
+        }
+
+        map.setCenter(results[0].geometry.location);
+            marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+            draggable: true
+        });
+
+        aft = true
+
+        document.getElementById('lat').value = results[0].geometry.location.lat();
+        document.getElementById('lng').value = results[0].geometry.location.lng();
+        var requestAjax = function(endpoint, callback) {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function(){
+            if (this.readyState==4 && this.status==200) {
+              callback(this.response);
+            }
+          };
+          xhr.responseType = 'json';
+          xhr.open('GET',endpoint,true);
+          xhr.send();
+        };
+        var latitude = results[0].geometry.location.lat();
+        var longitude = results[0].geometry.location.lng();
+        var apiKey = '<%= ENV["GOOGLEAPIKEY"] %>';
+        var requestURL = 'https://maps.googleapis.com/maps/api/geocode/json?language=ja&sensor=false';
+        requestURL += '&latlng=' + latitude + ',' + longitude;
+        requestURL += '&key=' + apiKey;
+        requestAjax(requestURL, function(response){
+          if (response.error_message) {
+            console.log(response.error_message);
+          } else {
+            document.getElementById('address_text').value = response.results[0]['formatted_address'];
+          }
+        });
+
+        google.maps.event.addListener( marker, 'dragend', function(ev){
+            document.getElementById('lat').value = ev.latLng.lat();
+            document.getElementById('lng').value = ev.latLng.lng();
+        });
+    } else {
+      alert('該当する結果がありませんでした：' + status);
+    }
+  });
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLEAPIKEY"] %>&callback=initMap" async defer></script>

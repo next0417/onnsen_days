@@ -62,11 +62,9 @@ ActiveRecord::Schema.define(version: 2023_02_11_121824) do
   end
 
   create_table "kounous", force: :cascade do |t|
-    t.integer "onsen_kounou_id", null: false
     t.string "kounou_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["onsen_kounou_id"], name: "index_kounous_on_onsen_kounou_id"
   end
 
   create_table "onsen_kounous", force: :cascade do |t|
@@ -88,28 +86,22 @@ ActiveRecord::Schema.define(version: 2023_02_11_121824) do
   end
 
   create_table "onsens", force: :cascade do |t|
-    t.integer "favorite_id", null: false
-    t.integer "visit_id", null: false
-    t.integer "review_id", null: false
-    t.integer "onsen_senshitu_id", null: false
-    t.integer "onsen_kounou_id", null: false
-    t.string "name"
-    t.text "introduction"
-    t.string "address"
-    t.float "latitude"
-    t.float "longitude"
+    t.string "name", null: false
+    t.text "introduction", null: false
+    t.string "address", null: false
+    t.float "latitude", null: false
+    t.float "longitude", null: false
+    t.integer "is_active", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["favorite_id"], name: "index_onsens_on_favorite_id"
-    t.index ["onsen_kounou_id"], name: "index_onsens_on_onsen_kounou_id"
-    t.index ["onsen_senshitu_id"], name: "index_onsens_on_onsen_senshitu_id"
-    t.index ["review_id"], name: "index_onsens_on_review_id"
-    t.index ["visit_id"], name: "index_onsens_on_visit_id"
   end
 
   create_table "reviews", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "onsen_id", null: false
+    t.string "title"
+    t.text "body"
+    t.float "rate", default: 0.0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["onsen_id"], name: "index_reviews_on_onsen_id"
@@ -117,18 +109,13 @@ ActiveRecord::Schema.define(version: 2023_02_11_121824) do
   end
 
   create_table "senshitus", force: :cascade do |t|
-    t.integer "onsen_senshitu_id", null: false
     t.string "senshitu_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["onsen_senshitu_id"], name: "index_senshitus_on_onsen_senshitu_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.integer "favorite_id", null: false
-    t.integer "visit_id", null: false
-    t.integer "review_id", null: false
-    t.string "name", null: false
+    t.string "name"
     t.text "introduction"
     t.boolean "is_deleted", default: false
     t.string "email", default: "", null: false
@@ -139,10 +126,7 @@ ActiveRecord::Schema.define(version: 2023_02_11_121824) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["favorite_id"], name: "index_users_on_favorite_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["review_id"], name: "index_users_on_review_id"
-    t.index ["visit_id"], name: "index_users_on_visit_id"
   end
 
   create_table "visits", force: :cascade do |t|
@@ -158,22 +142,12 @@ ActiveRecord::Schema.define(version: 2023_02_11_121824) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "favorites", "onsens"
   add_foreign_key "favorites", "users"
-  add_foreign_key "kounous", "onsen_kounous"
   add_foreign_key "onsen_kounous", "kounous"
   add_foreign_key "onsen_kounous", "onsens"
   add_foreign_key "onsen_senshitus", "onsens"
   add_foreign_key "onsen_senshitus", "senshitus"
-  add_foreign_key "onsens", "favorites"
-  add_foreign_key "onsens", "onsen_kounous"
-  add_foreign_key "onsens", "onsen_senshitus"
-  add_foreign_key "onsens", "reviews"
-  add_foreign_key "onsens", "visits"
   add_foreign_key "reviews", "onsens"
   add_foreign_key "reviews", "users"
-  add_foreign_key "senshitus", "onsen_senshitus"
-  add_foreign_key "users", "favorites"
-  add_foreign_key "users", "reviews"
-  add_foreign_key "users", "visits"
   add_foreign_key "visits", "onsens"
   add_foreign_key "visits", "users"
 end
