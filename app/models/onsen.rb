@@ -35,4 +35,12 @@ class Onsen < ApplicationRecord
       errors.add(:images, "は1~4枚以内にしてください")
     end
   end
+
+  def favorited_by?(user)
+    favorites.exists?(user_id: user.id)
+  end
+
+  def visited_by?(user)
+    visits.exists?(user_id: user.id)
+  end
 end

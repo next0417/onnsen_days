@@ -41,10 +41,10 @@
                   <%= link_to "マイページ", users_mypage_path, class: 'btn nav-link text-black' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "お気に入り温泉一覧", favorites_path, class: 'btn nav-link text-black' %>
+                  <%= link_to "お気に入り温泉一覧", user_favorites_path(current_user), class: 'btn nav-link text-black' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "訪問済み温泉一覧", visits_path, class: 'btn nav-link text-black' %>
+                  <%= link_to "訪問済み温泉一覧", user_visits_path(current_user), class: 'btn nav-link text-black' %>
                 </li>
                 <li class="nav-item">
                   <%= link_to "温泉一覧", onsens_path, class: 'btn nav-link text-black' %>
@@ -66,7 +66,7 @@
                   <%= link_to "ログイン", user_session_path, class: 'btn nav-link text-black' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "ゲストログイン", homes_guest_sign_in_path, class: 'btn nav-link text-black' %>
+                  <%= link_to "ゲストログイン", homes_guest_sign_in_path, method: :post, class: 'btn nav-link text-black' %>
                 </li>
               <% end %>
             </ul>

@@ -1,0 +1,41 @@
+<div class="container">
+  <h1 class="mt-4 mb-3">口コミ新規登録</h1>
+  <hr>
+  <%= form_with model: @review, url: onsen_reviews_path do |f| %>
+  <div class="form-group row mt-4">
+    <div class="col-md-6 m-auto">
+      <h4><%= f.label :title, "タイトル", class: "col-form-label mb-2" %></h4>
+      <%= f.text_field :title, :placeholder =>"タイトル", autofocus: true, autocomplete: "title", class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group row mt-4">
+    <div class="col-md-6 m-auto">
+      <h4><%= f.label :body, "本文", class: "col-form-label mb-2" %></h4>
+      <%= f.text_area :body, :placeholder =>"本文", autofocus: true, autocomplete: "body", class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group row mt-4">
+    <div class="col-md-6 m-auto">
+      <h4><%= f.label :rate, "評価", class: "col-form-label mb-2" %></h4>
+      <div id="star-rate-<%= f.id %>"></div>
+      <script>
+        var elem = document.getElementById('star-rate-<%= f.id %>')
+        var opt = {
+          size: 36,
+          starOff: "<%= asset_path('star-off.png') %>",
+          starOn: "<%= asset_path('star-on.png') %>",
+          starHalf: "<%= asset_path('star-half.png') %>",
+          half: true,
+          score: "<%= f.reviews.average(:rate).to_f.round(1) %>",
+        }
+        raty(elem, opt);
+      </script>
+    </div>
+  </div>
+  <div class="form-group row mt-4">
+    <div class="col-md-6 m-auto">
+      <%= f.submit "新規投稿", class: 'btn btn-primary' %>
+    </div>
+  </div>
+  <% end %>
+</div>

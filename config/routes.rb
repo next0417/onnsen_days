@@ -12,11 +12,16 @@ Rails.application.routes.draw do
     patch '/users/information' => 'users#update'
     get '/users/confirmation' => 'users#confirmation'
     patch '/users' => 'users#update_without'
+    resources :users do
+      resources :favorites, only: [:index]
+      resources :visits, only: [:index]
+    end
     resources :onsens, only: [:index, :show] do
       resources :reviews, only: [:new, :create, :index, :destroy]
+      resource :favorites, only: [:create, :destroy]
+      resource :visits, only: [:create, :destroy]
     end
-    resources :favorites, only: [:create, :index, :destroy]
-    resources :visits, only: [:create, :index, :destroy]
+
   end
 
   namespace :admin do

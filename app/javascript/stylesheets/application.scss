@@ -18,3 +18,19 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.icon {
+  color: red;
+}
+.icon2 {
+  color: gray;
+}
+.bookmark {
+  left: 30px;
+  color: blue;
+  z-index: 2;
+}
+.bookmark2 {
+  left: 30px;
+  color: gray;
+  z-index: 2;
+}

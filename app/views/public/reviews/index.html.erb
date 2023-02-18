@@ -1,0 +1,46 @@
+<div class="container">
+  <h1 class="mt-4 mb-3">
+    口コミ一覧
+    <%= link_to "新規投稿", new_onsen_review_path, class: 'btn btn-primary' %>
+  </h1>
+  <hr>
+  <div class="row">
+    <% @reviews.each do |f| %>
+    <div class="media row">
+      <div class="col-md-10">
+        <%= image_tag f.user.get_image(100, 100), class: "bd-placeholder-img align-self-start mr-3" %>
+        <div class="media-body row">
+          <div class="col-md-8">
+            <h4 class="mt-0"><%= f.user.name %></h4>
+            <h4 class="mt-0"><%= f.title %></h4>
+            <%= simple_format(f.body) %>
+          </div>
+          <div class="col-md-4">
+            <span id="star-rate-<%= f.id %>"></span>
+            <span><%= f.rate.to_f.round(1) %></span>
+            <script>
+              var elem = document.getElementById('star-rate-<%= f.id %>')
+              var opt = {
+                size: 36,
+                starOff: "<%= asset_path('star-off.png') %>",
+                starOn: "<%= asset_path('star-on.png') %>",
+                starHalf: "<%= asset_path('star-half.png') %>",
+                half: true,
+                readOnly: true,
+                score: "<%=f.rate.to_f.round(1) %>",
+              }
+              raty(elem, opt);
+            </script>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <% if f.user.id ==current_user.id %>
+          <%= link_to "削除", onsen_review_path(f.id), class: "btn btn-danger d-flex align-items-center" %>
+        <% end %>
+      </div>
+    </div>
+    <% end %>
+    <%= paginate @reviews %>
+  </div>
+</div>
