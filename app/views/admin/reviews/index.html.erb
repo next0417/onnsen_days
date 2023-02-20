@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="mt-4 mb-3">
     口コミ一覧
-    <%= link_to "新規投稿", new_onsen_review_path, class: 'btn btn-primary' %>
+    <div class="mt-2">ユーザー名：<%= @user.name %></div>
   </h1>
   <hr>
   <% @reviews.each do |f| %>
@@ -11,7 +11,7 @@
         <%= image_tag f.user.get_image(100, 100), class: "bd-placeholder-img align-self-start mr-3" %>
         <div class="media-body row border">
           <div class="col-md-9">
-            <h4 class="mt-2">ユーザー名：<%= f.user.name %></h4>
+            <h4 class="mt-2">温泉名：<%= f.onsen.name %></h4>
             <h4 class="mt-0"><%= f.title %></h4>
             <p><%= simple_format(f.body) %></p>
           </div>
@@ -39,9 +39,7 @@
       </div>
     </div>
     <div class="col-md-1 align-self-center">
-      <% if f.user == current_user %>
-        <%= link_to "削除", onsen_review_path(f.onsen.id, f.id), method: :delete, class: "btn btn-danger ml-1", "data-confirm" => "本当に削除しますか？" %>
-      <% end %>
+      <%= link_to "削除", admin_user_review_path(f.user.id, f.id), method: :delete, class: "btn btn-danger ml-1", "data-confirm" => "本当に削除しますか？" %>
     </div>
   </div>
   <% end %>

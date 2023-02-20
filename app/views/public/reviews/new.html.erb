@@ -17,16 +17,16 @@
   <div class="form-group row mt-4">
     <div class="col-md-6 m-auto">
       <h4><%= f.label :rate, "評価", class: "col-form-label mb-2" %></h4>
-      <div id="star-rate-<%= f.id %>"></div>
+      <div id="star-rate"></div>
       <script>
-        var elem = document.getElementById('star-rate-<%= f.id %>')
+        var elem = document.getElementById('star-rate')
         var opt = {
           size: 36,
           starOff: "<%= asset_path('star-off.png') %>",
           starOn: "<%= asset_path('star-on.png') %>",
           starHalf: "<%= asset_path('star-half.png') %>",
           half: true,
-          score: "<%= f.reviews.average(:rate).to_f.round(1) %>",
+          scoreName: 'review[rate]'
         }
         raty(elem, opt);
       </script>

@@ -6,6 +6,8 @@ class Public::ReviewsController < ApplicationController
   def create
     @onsen = Onsen.find(params[:onsen_id])
     @review = Review.new(review_params)
+    @review.onsen = @onsen
+    @review.user = current_user
     @review.save
     redirect_to onsen_reviews_path(@onsen.id)
   end
@@ -23,5 +25,6 @@ class Public::ReviewsController < ApplicationController
 
   private
   def review_params
+    params.require(:review).permit(:title, :body, :rate)
   end
 end

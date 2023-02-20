@@ -1,0 +1,47 @@
+<div class="container">
+  <h1 class="mt-4 mb-3">
+    <div class="mb-2">会員詳細</div>
+  </h1>
+  <hr>
+  <div class="row mt-4">
+    <div class="offset-md-1 col-md-5">
+      <div class="row mb-4">
+        <div class="col-md-4">ユーザー名</div>
+        <div class="col-md-8"><%= @user.name %></div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-4">メールアドレス</div>
+        <div class="col-md-8"><%= @user.email %></div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-4">レヴュー件数</div>
+        <div class="col-md-8">
+          <%= link_to admin_user_reviews_path(@user.id) do %>
+            <%= @user.reviews.count %>件
+          <% end %>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-4">自己紹介</div>
+        <div class="col-md-8"><%= simple_format(@user.introduction) %></div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-4"></div>
+        <div class="col-md-8">
+          <span>退会させますか？</span>
+          <span class="ml-2"><%= link_to "退会", admin_users_path(@user.id),method: :patch, class: "btn btn-danger", "data-confirm" => "本当に退会させますか？" %></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row mb-4">
+        <div class="col-md-4">プロフィール画像</div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <%= image_tag @user.get_image(200, 200) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
