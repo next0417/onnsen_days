@@ -1,1 +1,140 @@
-<h1>Homes#top</h1>
+<div class="container">
+  <h1 class="mt-4 mb-3">OnnsenDaysへようこそ</h1>
+  <hr>
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <%= form_with model: @onsen, url: root_path, local: true, method: :get do |f| %>
+        <div class="row">
+          <div class="col-md-12">
+            <span><%= f.text_field :keyword %></span>
+            <span><%= f.select :sort, [["五十音順", "0"], ["評価高い順", "1"], ["評価低い順", "2"]] %></span>
+            <span><%= f.submit "検索" %></span>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-12">
+            <h2>泉質</h2>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class='form-group row row-cols-2'>
+            <%= f.collection_check_boxes(:senshitu_ids, Senshitu.all, :id, :senshitu_name,include_hidden: false) do |senshitu| %>
+            <div class='form-check col'>
+              <%= senshitu.label class: 'form-check-label' do %>
+                <%= senshitu.check_box class: 'form-check-input' %>
+                <%= senshitu.text %>
+              <% end %>
+            </div>
+            <% end %>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-12">
+            <h2>効能</h2>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class='form-group row row-cols-2'>
+            <%= f.collection_check_boxes(:kounou_ids, Kounou.all, :id, :kounou_name,include_hidden: false) do |kounou| %>
+            <div class='form-check col'>
+              <%= kounou.label class: 'form-check-label' do %>
+                <%= kounou.check_box class: 'form-check-input' %>
+                <%= kounou.text %>
+              <% end %>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <% @onsens.each do |f| %>
+          <div class="col-md-6 mb-3">
+            <div class="card border-dark">
+              <div id="carouselExampleControls_<%= f.id %>" class="carousel slide" data-ride="carousel">
+                <% if user_signed_in? %>
+                  <% if f.visited_by?(current_user) %>
+                    <%= link_to onsen_visits_path(f.id), method: :delete do %>
+                      <i class="fas fa-3x fa-solid fa-bookmark position-absolute bookmark"></i>
+                    <% end %>
+                  <% else %>
+                    <%= link_to onsen_visits_path(f.id), method: :post do %>
+                      <i class="fas fa-3x fa-solid fa-bookmark position-absolute bookmark2"></i>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <div class="carousel-inner">
+                  <div class="carousel-item active" style="height: 200px;">
+                    <% f.images.first(1).each do |image| %>
+                      <%= image_tag image, class: "carousel_image w-100"  %>
+                    <% end %>
+                  </div>
+                  <% f.images.drop(1).each do |image| %>
+                    <div class="carousel-item" style="height: 200px;">
+                      <%= image_tag image, class: "carousel_image w-100" %>
+                    </div>
+                  <% end %>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls_<%= f.id %>" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls_<%= f.id %>" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">
+                  <%= link_to onsen_path(f.id) do %>
+                    <%= f.name %>
+                  <% end %>
+                </h5>
+                <p class="card-text mb-2"><%= f.introduction %></p>
+                <div class="row">
+                  <div class="offset-md-1 col-md-4">
+                    <p class="align-middle">口コミ評価</p>
+                  </div>
+                  <div class="col-md-7">
+                    <div id="star-rate-<%= f.id %>"></div>
+                    <script>
+                      var elem = document.getElementById('star-rate-<%= f.id %>')
+                      var opt = {
+                        size: 36,
+                        starOff: "<%= asset_path('star-off.png') %>",
+                        starOn: "<%= asset_path('star-on.png') %>",
+                        starHalf: "<%= asset_path('star-half.png') %>",
+                        half: true,
+                        readOnly: true,
+                        score: "<%=f.reviews.average(:rate).to_f.round(1) %>",
+                      }
+                      raty(elem, opt);
+                    </script>
+                  </div>
+                  <% if user_signed_in? %>
+                    <div class="col-md-6">お気に入り登録</div>
+                    <div class="offset-md-1 col-md-5">
+                      <% if f.favorited_by?(current_user) %>
+                        <%= link_to onsen_favorites_path(f.id), method: :delete do %>
+                          <i class="fas fa-solid fa-heart icon"></i>
+                        <% end %>
+                      <% else %>
+                        <%= link_to onsen_favorites_path(f.id), method: :post do %>
+                          <i class="fas fa-solid fa-heart icon2"></i>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <%= paginate @onsens %>
+      </div>
+    </div>
+  </div>
+</div>

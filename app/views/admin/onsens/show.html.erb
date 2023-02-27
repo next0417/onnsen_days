@@ -16,7 +16,7 @@
       </div>
       <div class="row mb-4">
         <div class="col-md-3">営業状況</div>
-        <div class="col-md-9"><%= @onsen.is_active_i18n %></div>
+        <div class="col-md-9"><%= Onsen.is_actives_i18n[:"#{@onsen.is_active}"] %></div>
       </div>
       <div class="row mb-4">
         <div class="col-md-3">画像</div>

@@ -1,5 +1,20 @@
 class Public::HomesController < ApplicationController
   def top
+    @onsen = Onsen.new
+    if params[:onsen].present? &&
+      (params[:onsen][:keyword].present? ||
+        params[:onsen][:senshitu_ids].present? ||
+        params[:onsen][:kounou_ids].present? ||
+        params[:onsen][:sort].present?)
+      @onsens = Onsen.search(
+        params[:onsen][:keyword],
+        params[:onsen][:senshitu_ids],
+        params[:onsen][:kounou_ids],
+        params[:onsen][:sort]
+      ).page(params[:page])
+    else
+      @onsens = Onsen.all.page(params[:page])
+    end
   end
 
   def guest_sign_in

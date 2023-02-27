@@ -17,9 +17,8 @@ class Onsen < ApplicationRecord
   has_many :onsen_senshitus, dependent: :destroy
   has_many :senshitus, through: :onsen_senshitus, dependent: :destroy
 
-  enum is_active: { 営業中: 0, 休業中: 1, 閉店: 2 }
-
-  validate :images_length
+  enum is_active: { onsen_open: 0, rest: 1, closed: 2 }
+  enum sort: {alphabet: 0, rate_asc: 1, rate_desc: 2}
 
   def get_image(width,height)
     unless image.attached?
@@ -29,11 +28,44 @@ class Onsen < ApplicationRecord
     image.variant(resize_to_limit: [width, height]).processed
   end
 
-  def images_length
-    if images.length > 4 || images.length == 0
+  def validate_images_length(delete_image_counts)
+    if delete_image_counts.nil?
+      delete_image_counts = 0
+    end
+    if images.length - delete_image_counts > 4 || images.length - delete_image_counts == 0
       images.select {|image| image.id == nil}.each(&:purge)
       errors.add(:images, "は1~4枚以内にしてください")
+    return false
     end
+    true
+  end
+
+  def self.search(keyword,senshitu_ids,kounou_ids,sort)
+    onsen = Onsen
+    if keyword.present?
+      onsen = onsen.where('name LIKE(?)', "%#{keyword}%")
+              .or(where('address LIKE(?)', "%#{keyword}%"))
+    end
+    pp onsen
+
+    if sort == "0"
+      onsen = onsen.order("name")
+    elsif sort == "1"
+      onsen = onsen.left_joins(:reviews).group("onsens.id").order("AVG(reviews.rate) DESC")
+    else
+      onsen = onsen.left_joins(:reviews).group("onsens.id").order("AVG(reviews.rate)")
+    end
+    #byebug
+
+    if kounou_ids
+      onsen = onsen.joins(:kounous).where(kounous: { id: kounou_ids}).where(id: onsen.pluck(:id))
+      pp onsen
+    end
+    if senshitu_ids
+      onsen = onsen.joins(:senshitus).where(senshitus: { id: senshitu_ids}).where(id: onsen.pluck(:id))
+      pp onsen
+    end
+    return onsen
   end
 
   def favorited_by?(user)
