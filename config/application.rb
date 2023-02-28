@@ -20,5 +20,6 @@ module OnnsenDays
     # config.eager_load_paths << Rails.root.join("extras")
     config.i18n.default_locale = :ja
     config.active_storage.replace_on_assign_to_many = false
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
   end
 end

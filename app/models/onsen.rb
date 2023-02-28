@@ -18,7 +18,14 @@ class Onsen < ApplicationRecord
   has_many :senshitus, through: :onsen_senshitus, dependent: :destroy
 
   enum is_active: { onsen_open: 0, rest: 1, closed: 2 }
-  enum sort: {alphabet: 0, rate_asc: 1, rate_desc: 2}
+
+  scope :alphabet, -> { order("name ASC") }
+  scope :rate_desc, -> { left_joins(:reviews).group("onsens.id").order("AVG(reviews.rate) DESC") }
+  scope :rate_asc, -> { left_joins(:reviews).group("onsens.id").order("AVG(reviews.rate) ASC") }
+
+  def review_average
+    self.reviews.average(:rate)
+  end
 
   def get_image(width,height)
     unless image.attached?
@@ -55,7 +62,6 @@ class Onsen < ApplicationRecord
     else
       onsen = onsen.left_joins(:reviews).group("onsens.id").order("AVG(reviews.rate)")
     end
-    #byebug
 
     if kounou_ids
       onsen = onsen.joins(:kounous).where(kounous: { id: kounou_ids}).where(id: onsen.pluck(:id))

@@ -1,5 +1,16 @@
 <div class="container">
   <h1 class="mt-4 mb-3">お気に入り温泉一覧</h1>
+  <div class="d-flex justify-content-end">
+    <ul class="mb-1">
+      <span class="mr-2">並び順</span>
+      <span class="mr-2">|</span>
+      <span class="mr-2">五十音順</span>
+      <span class="mr-2">|</span>
+      <span class="mr-2">評価高い順</span>
+      <span class="mr-2">|</span>
+      <span>評価低い順</span>
+    </ul>
+  </div>
   <hr>
   <div class="row">
     <% @visits.each do |f| %>
@@ -18,14 +29,14 @@
             <% end %>
           <% end %>
           <div class="carousel-inner">
-            <div class="carousel-item active">
+            <div class="carousel-item active" style="height: 200px;">
               <% f.onsen.images.first(1).each do |image| %>
-                <%= image_tag image, class: "carousel_image"  %>
+                <%= image_tag image, class: "carousel_image w-100"  %>
               <% end %>
             </div>
             <% f.onsen.images.drop(1).each do |image| %>
-              <div class="carousel-item">
-                <%= image_tag image, class: "carousel_image" %>
+              <div class="carousel-item" style="height: 200px;">
+                <%= image_tag image, class: "carousel_image w-100" %>
               </div>
             <% end %>
           </div>

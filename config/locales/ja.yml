@@ -13,10 +13,6 @@ ja:
         onsen_open: "営業中"
         rest: "休業中"
         closed: "閉店"
-      sort:
-        alphabet: "五十音順"
-        rate_asc: "評価高い順"
-        rate_desc: "評価低い順"
   views:
     pagination:
       first: '最初'
