@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     get '/users/mypage/edit' => 'users#edit'
     patch '/users/information' => 'users#update'
     get '/users/confirmation' => 'users#no_membership'
-    patch '/users' => 'users#update_without'
+    patch '/user/update_without' => 'users#update_without', as: :update_without
     get '/users/:user_id/favorites' => 'favorites#index', as: :user_favorites
     get '/users/:user_id/visits' => 'visits#index', as: :user_visits
     resources :onsens, only: [:index, :show] do
@@ -28,7 +28,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    patch '/users' => 'users#update_without'
+    patch '/user/update_without/:id' => 'users#update_without', as: :update_without
+    patch '/user/update_within/:id' => 'users#update_within', as: :update_within
     resources :onsens, only: [:new, :create, :index, :show, :edit, :update]
     resources :users, only: [:index, :show] do
       resources :reviews, only: [:index, :destroy]

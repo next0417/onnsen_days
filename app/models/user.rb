@@ -22,4 +22,8 @@ class User < ApplicationRecord
     end
     image.variant(resize_to_limit: [width, height]).processed
   end
+
+  def active_for_authentication?
+    super && (is_deleted == false)
+  end
 end

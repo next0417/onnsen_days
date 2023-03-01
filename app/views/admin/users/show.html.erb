@@ -28,8 +28,13 @@
       <div class="row mb-4">
         <div class="col-md-4"></div>
         <div class="col-md-8">
-          <span>退会させますか？</span>
-          <span class="ml-2"><%= link_to "退会", admin_users_path(@user.id),method: :patch, class: "btn btn-danger", "data-confirm" => "本当に退会させますか？" %></span>
+          <% if @user.is_deleted == false %>
+            <span>退会させますか？</span>
+            <span class="ml-2"><%= link_to "退会", admin_update_without_path(@user.id),method: :patch, class: "btn btn-danger", "data-confirm" => "本当に退会させますか？" %></span>
+          <% else %>
+            <span>復活させますか？</span>
+            <span class="ml-2"><%= link_to "復活", admin_update_within_path(@user.id),method: :patch, class: "btn btn-success", "data-confirm" => "本当に復活させますか？" %></span>
+          <% end %>
         </div>
       </div>
     </div>

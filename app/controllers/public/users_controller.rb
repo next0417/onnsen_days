@@ -20,7 +20,6 @@ class Public::UsersController < ApplicationController
   def update_without
     @user = current_user
     @user.update(is_deleted: true)
-    reset_session
     redirect_to root_path
   end
 
