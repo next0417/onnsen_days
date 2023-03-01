@@ -10,14 +10,13 @@ class Public::FavoritesController < ApplicationController
     @user = current_user
     case params[:sort].to_i
     when 0 then
-      pp "------------------------0------------------------------"
       @favorites = @user.favorites.alphabet.page(params[:page])
     when 1 then
-      pp "------------------------1------------------------------"
-      @favorites = @user.favorites.rate_desc.page(params[:page])
+      @sort = @user.favorites.rate_desc
+      @favorites = Kaminari.paginate_array(@sort).page(params[:page])
     when 2 then
-      pp "------------------------2------------------------------"
-      @favorites = @user.favorites.rate_asc.page(params[:page])
+      @sort = @user.favorites.rate_asc
+      @favorites = Kaminari.paginate_array(@sort).page(params[:page])
     else
       @favorites = @user.favorites.all.page(params[:page])
     end
