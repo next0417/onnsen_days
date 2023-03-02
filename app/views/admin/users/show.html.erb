@@ -32,8 +32,8 @@
             <span>退会させますか？</span>
             <span class="ml-2"><%= link_to "退会", admin_update_without_path(@user.id),method: :patch, class: "btn btn-danger", "data-confirm" => "本当に退会させますか？" %></span>
           <% else %>
-            <span>復活させますか？</span>
-            <span class="ml-2"><%= link_to "復活", admin_update_within_path(@user.id),method: :patch, class: "btn btn-success", "data-confirm" => "本当に復活させますか？" %></span>
+            <span>復元させますか？</span>
+            <span class="ml-2"><%= link_to "復元", admin_update_within_path(@user.id),method: :patch, class: "btn btn-success", "data-confirm" => "本当に復元させますか？" %></span>
           <% end %>
         </div>
       </div>

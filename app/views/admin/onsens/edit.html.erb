@@ -97,13 +97,13 @@
       <div class="form-group row">
         <%= f.label :latitude, "経度", class: "col-2 col-form-label pr-0 pl-5" %>
         <div class="col-10">
-          <%= f.text_field :latitude, :placeholder =>"経度", id: :lat, class: "form-control" %>
+          <%= f.text_field :latitude, :placeholder =>"経度", id: :lat, readonly: true, class: "form-control" %>
         </div>
       </div>
       <div class="form-group row">
         <%= f.label :longitude, "緯度", class: "col-2 col-form-label pr-0 pl-5" %>
         <div class="col-10">
-          <%= f.text_field :longitude, :placeholder =>"緯度", id: :lng, class: "form-control" %>
+          <%= f.text_field :longitude, :placeholder =>"緯度", id: :lng, readonly: true, class: "form-control" %>
         </div>
       </div>
       <div class="form-group row">

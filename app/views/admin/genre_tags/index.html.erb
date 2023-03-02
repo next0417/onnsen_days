@@ -17,11 +17,11 @@
   </div>
   <div class="row mt-4">
     <div class="offset-sm-1 col-sm-11">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-start">
         <% @senshitus.each do |senshitu| %>
-          <div class="text-center">
+          <div class="text-center" style="width: 16%;">
             <%= senshitu.senshitu_name %><br>
-            <%= link_to "削除", admin_senshitu_path(senshitu.id), method: :delete, class: 'btn btn-sm btn-danger', "data-confirm" => "本当に削除しますか？" %>
+            <%= link_to "削除", admin_senshitu_path(senshitu.id), method: :delete, class: 'btn btn-sm btn-danger mt-2', "data-confirm" => "本当に削除しますか？" %>
           </div>
         <% end %>
       </div>
@@ -47,11 +47,11 @@
   </div>
   <div class="row mt-4">
     <div class="offset-sm-1 col-sm-11">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-start">
         <% @kounous.each do |kounou| %>
-          <div class="text-center">
+          <div class="text-center" style="width: 16%;">
             <%= kounou.kounou_name %><br>
-            <%= link_to "削除", admin_kounou_path(kounou.id), method: :delete, class: 'btn btn-sm btn-danger', "data-confirm" => "本当に削除しますか？" %>
+            <%= link_to "削除", admin_kounou_path(kounou.id), method: :delete, class: 'btn btn-sm btn-danger mt-2', "data-confirm" => "本当に削除しますか？" %>
           </div>
         <% end %>
       </div>
