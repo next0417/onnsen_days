@@ -12,6 +12,7 @@ ja:
       review:
         title: "タイトル"
         body: "本文"
+        rate: "評価"
       senshitu:
         senshitu_name: "泉質名"
       kounou:

@@ -3,6 +3,14 @@ class Review < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true
 
+  after_validation do
+    #byebug
+    if self.errors.keys.include?(:review)
+      self.self.errors.delete(:rate)
+      self.errors.add(:rate, "がありません")
+    end
+  end
+
   belongs_to :user
   belongs_to :onsen
 
