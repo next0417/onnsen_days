@@ -8,8 +8,11 @@ class Public::ReviewsController < ApplicationController
     @review = Review.new(review_params)
     @review.onsen = @onsen
     @review.user = current_user
-    @review.save
-    redirect_to onsen_reviews_path(@onsen.id)
+    if @review.save
+      redirect_to onsen_reviews_path(@onsen.id)
+    else
+      render :new
+    end
   end
 
   def index

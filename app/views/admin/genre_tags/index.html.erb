@@ -5,9 +5,18 @@
      <h2>泉質</h2>
   </div>
 
+  <% if @senshitu.errors.any? %>
+  <%= @senshitu.errors.count %>件のエラーが発生しました
+  <ul class="text-danger">
+    <% @senshitu.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+  <% end %>
+
   <div class="row mt-4">
     <div class="offset-sm-1 col-sm-4">
-      <%= form_with model: @senshitu, url: admin_senshitus_path, class: "form-inline" do |f| %>
+      <%= form_with model: @senshitu, url: admin_post_senshitsu_path, class: "form-inline" do |f| %>
         <div class="form-group">
           <%= f.text_field :senshitu_name, :placeholder =>"泉質", class: "form-control mr-2" %>
         </div>
@@ -35,9 +44,18 @@
      <h2>効能</h2>
   </div>
 
+  <% if @kounou.errors.any? %>
+  <%= @kounou.errors.count %>件のエラーが発生しました
+  <ul class="text-danger">
+    <% @kounou.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+  <% end %>
+
   <div class="row mt-4">
     <div class="offset-sm-1 col-sm-4">
-      <%= form_with model: @kounou, url: admin_kounous_path, class: "form-inline" do |f| %>
+      <%= form_with model: @kounou, url: admin_post_kounou_path, class: "form-inline" do |f| %>
           <div class="form-group">
             <%= f.text_field :kounou_name, :placeholder =>"効能", class: "form-control mr-2" %>
           </div>

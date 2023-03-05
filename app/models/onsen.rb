@@ -2,6 +2,21 @@ class Onsen < ApplicationRecord
 
   has_many_attached :images
 
+  validates :name, presence: true
+  validates :introduction, presence: true
+  validates :address, presence: true
+  validates :latitude, presence: true
+  validates :longitude, presence: true
+
+  after_validation do
+    if self.errors.keys.include?(:address)
+      self.errors.delete(:latitude)
+      self.errors.delete(:longitude)
+      self.errors.delete(:address)
+      self.errors.add(:address, "がありません")
+    end
+  end
+
   has_many :favorites, dependent: :destroy
   has_many :users, through: :favorites, dependent: :destroy
 
@@ -33,6 +48,12 @@ class Onsen < ApplicationRecord
       image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
     end
     image.variant(resize_to_limit: [width, height]).processed
+  end
+
+  def validate_images_length_new(image_counts)
+    if images.length > 4 || images.length == 0
+      errors.add(:images, "は1~4枚以内にしてください")
+    end
   end
 
   def validate_images_length(delete_image_counts)

@@ -35,8 +35,10 @@ Rails.application.routes.draw do
       resources :reviews, only: [:index, :destroy]
     end
     resources :genre_tags, only: [:index]
-    resources :senshitus, only: [:create, :destroy]
-    resources :kounous, only: [:create, :destroy]
+    match 'genre_tags' => "senshitus#create", :via => :post, :as => :post_senshitsu
+    match 'genre_tags' => "kounous#create", :via => :post, :as => :post_kounou
+    resources :senshitus, only: [:destroy]
+    resources :kounous, only: [:destroy]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

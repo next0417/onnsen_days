@@ -1,8 +1,14 @@
 class Admin::KounousController < ApplicationController
   def create
     @kounou = Kounou.new(kounou_params)
-    @kounou.save
+    if @kounou.save
     redirect_to admin_genre_tags_path
+    else
+      @senshitu = Senshitu.new
+      @senshitus = Senshitu.page(params[:senshitu_page]).per(6)
+      @kounous = Kounou.page(params[:kounou_page]).per(6)
+      render 'admin/genre_tags/index'
+    end
   end
 
   def destroy

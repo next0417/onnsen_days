@@ -1,6 +1,21 @@
 ---
 ja:
   activerecord:
+    attributes:
+      user:
+        name: "ユーザー名"
+      onsen:
+        name: "温泉名"
+        introduction: "特徴、営業日、金額等"
+        images: "画像"
+        address: "住所"
+      review:
+        title: "タイトル"
+        body: "本文"
+      senshitu:
+        senshitu_name: "泉質名"
+      kounou:
+        kounou_name: "効能名"
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'

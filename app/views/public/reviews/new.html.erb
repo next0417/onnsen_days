@@ -1,5 +1,13 @@
 <div class="container">
   <h1 class="mt-4 mb-3">口コミ新規登録</h1>
+  <% if @review.errors.any? %>
+  <%= @review.errors.count %>件のエラーが発生しました
+  <ul class="text-danger">
+    <% @review.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+  <% end %>
   <hr>
   <%= form_with model: @review, url: onsen_reviews_path do |f| %>
   <div class="form-group row mt-4">
