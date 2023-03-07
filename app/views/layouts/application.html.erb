@@ -6,8 +6,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
+    <%= javascript_pack_tag 'application' %>
   </head>
 
   <body class="fw-bolder">
@@ -38,7 +38,7 @@
                   <%= link_to "Top", root_path, class: 'btn nav-link text-black' %>
                 </li>
                 <li class="nav-item">
-                  <%= link_to "マイページ", users_mypage_path, class: 'btn nav-link text-black' %>
+                  <%= link_to "マイページ", user_path(current_user), class: 'btn nav-link text-black' %>
                 </li>
                 <li class="nav-item">
                   <%= link_to "お気に入り温泉一覧", user_favorites_path(current_user), class: 'btn nav-link text-black' %>
@@ -74,6 +74,8 @@
         </div>
       </nav>
     </header>
-    <%= yield %>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

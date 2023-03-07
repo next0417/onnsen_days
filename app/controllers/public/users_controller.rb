@@ -1,4 +1,5 @@
 class Public::UsersController < ApplicationController
+  before_action :authenticate_user!
   def show
     @user = current_user
   end
@@ -10,7 +11,7 @@ class Public::UsersController < ApplicationController
   def update
     @user = current_user
     if @user.update(user_params)
-      redirect_to users_mypage_path(@user)
+      redirect_to user_path(@user)
     else
       render :edit
     end

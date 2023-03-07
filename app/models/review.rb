@@ -5,8 +5,8 @@ class Review < ApplicationRecord
 
   after_validation do
     #byebug
-    if self.errors.keys.include?(:review)
-      self.self.errors.delete(:rate)
+    if self.errors.keys.include?(:rate)
+      self.errors.delete(:rate)
       self.errors.add(:rate, "がありません")
     end
   end

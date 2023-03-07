@@ -12,19 +12,16 @@ Rails.application.routes.draw do
   post '/homes/guest_sign_in', to: 'public/homes#guest_sign_in'
 
   scope module: :public do
-    get '/users/mypage' => 'users#show'
-    get '/users/mypage/edit' => 'users#edit'
-    patch '/users/information' => 'users#update'
-    get '/users/confirmation' => 'users#no_membership'
-    patch '/user/update_without' => 'users#update_without', as: :update_without
+    get '/users/no_membership' => 'users#no_membership'
+    patch '/users/update_without' => 'users#update_without', as: :update_without
     get '/users/:user_id/favorites' => 'favorites#index', as: :user_favorites
     get '/users/:user_id/visits' => 'visits#index', as: :user_visits
+    resources :users, only: [:show, :edit, :update]
     resources :onsens, only: [:index, :show] do
       resources :reviews, only: [:new, :create, :index, :destroy]
       resource :favorites, only: [:create, :destroy]
       resource :visits, only: [:create, :destroy]
     end
-
   end
 
   namespace :admin do

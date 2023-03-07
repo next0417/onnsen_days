@@ -1,4 +1,5 @@
 class Public::FavoritesController < ApplicationController
+  before_action :authenticate_user!
   def create
     @onsen = Onsen.find(params[:onsen_id])
     @favorite = current_user.favorites.new(onsen_id: @onsen.id)

@@ -1,4 +1,5 @@
 class Public::VisitsController < ApplicationController
+  before_action :authenticate_user!
   def create
     @onsen = Onsen.find(params[:onsen_id])
     @visit = current_user.visits.new(onsen_id: @onsen.id)

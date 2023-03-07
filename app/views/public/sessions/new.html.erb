@@ -1,5 +1,6 @@
 <div class="container">
   <h1 class="mt-4 mb-3">ログイン</h1>
+  <p class="alert text-danger"><%= alert %></p>
   <hr>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="row mt-4">

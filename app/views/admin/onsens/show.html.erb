@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mb-5">
   <h1 class="mt-4 mb-3">
     温泉詳細
     <%= link_to "編集", edit_admin_onsen_path(@onsen.id), class: "btn btn-success" %>
@@ -34,23 +34,20 @@
         <div class="col-md-3">泉質</div>
         <div class="col-md-9">
           <% @onsen.senshitus.each do |senshitu| %>
-            <span><%= senshitu.senshitu_name %></span>
+            <span class="mr-1"><%= senshitu.senshitu_name %></span>
           <% end %>
         </div>
       </div>
-      <div class="row">
+      <div class="row ">
         <div class="col-md-3">効能</div>
         <div class="col-md-9">
           <% @onsen.kounous.each do |kounou| %>
-            <span><%= kounou.kounou_name %></span>
+            <span class="mr-1 pl-1 pr-1" style="background-color: #99FFFF; border-radius: 5px;"><%= kounou.kounou_name %></span>
           <% end %>
         </div>
       </div>
     </div>
     <div class="col-md-6">
-      <!--<div class="row mb-4">-->
-      <!--  <div class="offset-md-1 col-md-2">MAP</div>-->
-      <!--</div>-->
       <div class="row mb-4">
         <div class="offset-md-1 col-md-2">住所</div>
         <div class="col-md-9"><%= @onsen.address.gsub(/日本、/, "") %></div>
