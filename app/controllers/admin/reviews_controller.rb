@@ -1,7 +1,7 @@
 class Admin::ReviewsController < ApplicationController
   def index
     @user = User.find(params[:user_id])
-    @reviews = @user.reviews.page(params[:page])
+    @reviews = @user.reviews.page(params[:page]).per(10)
   end
 
   def destroy

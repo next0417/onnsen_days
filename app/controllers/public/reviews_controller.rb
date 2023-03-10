@@ -17,7 +17,7 @@ class Public::ReviewsController < ApplicationController
 
   def index
     @onsen = Onsen.find(params[:onsen_id])
-    @reviews = @onsen.reviews.page(params[:page])
+    @reviews = @onsen.reviews.page(params[:page]).per(10)
   end
 
   def destroy

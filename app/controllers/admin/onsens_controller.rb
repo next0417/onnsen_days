@@ -14,7 +14,7 @@ class Admin::OnsensController < ApplicationController
   end
 
   def index
-    @onsens = Onsen.page(params[:page])
+    @onsens = Onsen.page(params[:page]).per(9)
   end
 
   def show

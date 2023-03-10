@@ -11,9 +11,9 @@ class Public::HomesController < ApplicationController
         params[:onsen][:senshitu_ids],
         params[:onsen][:kounou_ids],
         params[:onsen][:sort]
-      ).page(params[:page])
+      ).page(params[:page]).per(9)
     else
-      @onsens = Onsen.all.page(params[:page])
+      @onsens = Onsen.all.page(params[:page]).per(9)
     end
   end
 

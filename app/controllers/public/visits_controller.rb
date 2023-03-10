@@ -11,15 +11,15 @@ class Public::VisitsController < ApplicationController
     @user = current_user
     case params[:sort].to_i
     when 0 then
-      @visits = @user.visits.alphabet.page(params[:page])
+      @visits = @user.visits.alphabet.page(params[:page]).per(9)
     when 1 then
       @sort = @user.visits.rate_desc
-      @visits = Kaminari.paginate_array(@sort).page(params[:page])
+      @visits = Kaminari.paginate_array(@sort).page(params[:page]).per(9)
     when 2 then
       @sort = @user.visits.rate_asc
-      @visits = Kaminari.paginate_array(@sort).page(params[:page])
+      @visits = Kaminari.paginate_array(@sort).page(params[:page]).per(9)
     else
-      @visits = @user.visits.all.page(params[:page])
+      @visits = @user.visits.all.page(params[:page]).per(9)
     end
 
   end
