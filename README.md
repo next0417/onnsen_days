@@ -25,5 +25,8 @@
 - IDE：Cloud9
 
 ## 使用素材
+温泉画像引用元
+https://onsen.nifty.com/gotenba-onsen/onsen002686/
+https://onsen.nifty.com/hakone-onsen/onsen001574/
 - 外部サービスの画像素材・音声素材を使用した場合は、必ずサービス名とURLを明記してください。
 - 使用しない場合は、使用素材の項目をREADMEから削除してください。
