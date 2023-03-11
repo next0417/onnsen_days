@@ -50,7 +50,9 @@
       </div>
       <div class="row mb-3">
         <div class="col-md-3"></div>
-        <div class="col-md-9"><%= link_to "口コミ一覧", onsen_reviews_path(@onsen.id), class: "btn btn-success" %></div>
+        <div class="col-md-9">
+          <%= link_to "口コミ一覧", onsen_reviews_path(@onsen.id), class: "btn btn-success", data: {"turbolinks"=>false} %>
+        </div>
       </div>
       <div class="row mb-3">
         <div class="col-md-3">泉質</div>

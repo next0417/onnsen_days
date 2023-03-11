@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="mt-4 mb-3">
     口コミ一覧
-    <%= link_to "新規投稿", new_onsen_review_path, class: 'btn btn-primary' %>
+    <%= link_to "新規投稿", new_onsen_review_path, class: 'btn btn-primary', data: {"turbolinks"=>false} %>
   </h1>
   <hr>
   <% @reviews.each do |f| %>

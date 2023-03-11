@@ -131,8 +131,8 @@
       <div class="form-group row">
         <label class="offset-2"></label>
         <div class="col-md-10">
-          <span class="mr-3"><%= f.submit "更新", class: 'btn btn-success' %></span>
-          <span><%= link_to "戻る", admin_onsen_path(@onsen.id), class: "btn btn-primary" %></span>
+          <span class="mr-3"><%= f.submit "更新", class: 'btn btn-success', data: {"turbolinks"=>false} %></span>
+          <span><%= link_to "戻る", admin_onsen_path(@onsen.id), class: "btn btn-primary", data: {"turbolinks"=>false} %></span>
         </div>
       </div>
     </div>

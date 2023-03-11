@@ -15,12 +15,12 @@
           <tr>
             <td><%= f.id %></td>
             <td>
-              <%= link_to admin_user_path(f.id) do %>
+              <%= link_to admin_user_path(f.id), data: {"turbolinks"=>false} do %>
                 <%= f.name %>
               <% end %>
             </td>
             <td>
-              <%= link_to admin_user_reviews_path(f.id) do %>
+              <%= link_to admin_user_reviews_path(f.id), data: {"turbolinks"=>false} do %>
                 <%= f.reviews.count %>件
               <% end %>
             </td>

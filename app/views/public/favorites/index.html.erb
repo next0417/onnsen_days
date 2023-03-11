@@ -5,31 +5,31 @@
       <span class="mr-2">並び順</span>
       <span class="mr-2">|</span>
       <span class="mr-2">
-        <%= link_to "五十音順", user_favorites_path(sort: 0) %>
+        <%= link_to "五十音順", user_favorites_path(sort: 0), data: {"turbolinks"=>false} %>
       </span>
       <span class="mr-2">|</span>
       <span class="mr-2">
-        <%= link_to "評価高い順", user_favorites_path(sort: 1) %>
+        <%= link_to "評価高い順", user_favorites_path(sort: 1), data: {"turbolinks"=>false} %>
       </span>
       <span class="mr-2">|</span>
       <span>
-        <%= link_to "評価低い順", user_favorites_path(sort: 2) %>
+        <%= link_to "評価低い順", user_favorites_path(sort: 2), data: {"turbolinks"=>false} %>
       </span>
     </ul>
   </div>
   <hr class="mt-0">
-  <div class="row">
+  <div class="row mt-4">
     <% @favorites.each do |f| %>
     <div class="col-md-4">
       <div class="card border-dark">
         <div id="carouselExampleControls_<%= f.onsen.id %>" class="carousel slide" data-ride="carousel">
           <% if user_signed_in? %>
             <% if f.onsen.visited_by?(current_user) %>
-              <%= link_to onsen_visits_path(f.onsen_id), method: :delete do %>
+              <%= link_to onsen_visits_path(f.onsen_id), method: :delete, data: {"turbolinks"=>false} do %>
                 <i class="fas fa-3x fa-solid fa-bookmark position-absolute bookmark"></i>
               <% end %>
             <% else %>
-              <%= link_to onsen_visits_path(f.onsen_id), method: :post do %>
+              <%= link_to onsen_visits_path(f.onsen_id), method: :post, data: {"turbolinks"=>false} do %>
                 <i class="fas fa-3x fa-solid fa-bookmark position-absolute bookmark2"></i>
               <% end %>
             <% end %>
@@ -57,7 +57,7 @@
         </div>
         <div class="card-body">
           <h5 class="card-title">
-            <%= link_to onsen_path(f.onsen.id) do %>
+            <%= link_to onsen_path(f.onsen.id), data: {"turbolinks"=>false} do %>
               <%= f.onsen.name %>
             <% end %>
           </h5>
@@ -86,7 +86,7 @@
               <div class="col-md-6">お気に入り登録</div>
               <div class="offset-md-1 col-md-5">
                 <% if f.onsen.favorited_by?(current_user) %>
-                  <%= link_to onsen_favorites_path(f.onsen_id), method: :delete do %>
+                  <%= link_to onsen_favorites_path(f.onsen_id), method: :delete, data: {"turbolinks"=>false} do %>
                     <i class="fas fa-solid fa-heart icon"></i>
                   <% end %>
                 <% end %>

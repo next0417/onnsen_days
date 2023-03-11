@@ -8,7 +8,7 @@
           <div class="col-md-12">
             <span><%= f.text_field :keyword %></span>
             <span><%= f.select :sort, [["五十音順", "0"], ["評価高い順", "1"], ["評価低い順", "2"]] %></span>
-            <span><%= f.submit "検索" %></span>
+            <span><%= f.submit "検索", data: {"turbolinks"=>false} %></span>
           </div>
         </div>
         <hr>
@@ -57,11 +57,11 @@
               <div id="carouselExampleControls_<%= f.id %>" class="carousel slide" data-ride="carousel">
                 <% if user_signed_in? %>
                   <% if f.visited_by?(current_user) %>
-                    <%= link_to onsen_visits_path(f.id), method: :delete do %>
+                    <%= link_to onsen_visits_path(f.id), method: :delete, data: {"turbolinks"=>false} do %>
                       <i class="fas fa-3x fa-solid fa-bookmark position-absolute bookmark"></i>
                     <% end %>
                   <% else %>
-                    <%= link_to onsen_visits_path(f.id), method: :post do %>
+                    <%= link_to onsen_visits_path(f.id), method: :post, data: {"turbolinks"=>false} do %>
                       <i class="fas fa-3x fa-solid fa-bookmark position-absolute bookmark2"></i>
                     <% end %>
                   <% end %>
@@ -89,7 +89,7 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">
-                  <%= link_to onsen_path(f.id) do %>
+                  <%= link_to onsen_path(f.id), data: {"turbolinks"=>false} do %>
                     <%= f.name %>
                   <% end %>
                 </h5>
@@ -118,11 +118,11 @@
                     <div class="col-md-6">お気に入り登録</div>
                     <div class="offset-md-1 col-md-5">
                       <% if f.favorited_by?(current_user) %>
-                        <%= link_to onsen_favorites_path(f.id), method: :delete do %>
+                        <%= link_to onsen_favorites_path(f.id), method: :delete, data: {"turbolinks"=>false} do %>
                           <i class="fas fa-solid fa-heart icon"></i>
                         <% end %>
                       <% else %>
-                        <%= link_to onsen_favorites_path(f.id), method: :post do %>
+                        <%= link_to onsen_favorites_path(f.id), method: :post, data: {"turbolinks"=>false} do %>
                           <i class="fas fa-solid fa-heart icon2"></i>
                         <% end %>
                       <% end %>

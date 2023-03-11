@@ -16,7 +16,7 @@
       <div class="row mb-4">
         <div class="col-md-4">レヴュー件数</div>
         <div class="col-md-8">
-          <%= link_to admin_user_reviews_path(@user.id) do %>
+          <%= link_to admin_user_reviews_path(@user.id), data: {"turbolinks"=>false} do %>
             <%= @user.reviews.count %>件
           <% end %>
         </div>
@@ -30,10 +30,14 @@
         <div class="col-md-8">
           <% if @user.is_deleted == false %>
             <span>退会させますか？</span>
-            <span class="ml-2"><%= link_to "退会", admin_update_without_path(@user.id),method: :patch, class: "btn btn-danger", "data-confirm" => "本当に退会させますか？" %></span>
+            <span class="ml-2">
+              <%= link_to "退会", admin_update_without_path(@user.id),method: :patch, class: "btn btn-danger", "data-confirm" => "本当に退会させますか？", data: {"turbolinks"=>false} %>
+            </span>
           <% else %>
             <span>復元させますか？</span>
-            <span class="ml-2"><%= link_to "復元", admin_update_within_path(@user.id),method: :patch, class: "btn btn-success", "data-confirm" => "本当に復元させますか？" %></span>
+            <span class="ml-2">
+              <%= link_to "復元", admin_update_within_path(@user.id),method: :patch, class: "btn btn-success", "data-confirm" => "本当に復元させますか？", data: {"turbolinks"=>false} %>
+            </span>
           <% end %>
         </div>
       </div>
