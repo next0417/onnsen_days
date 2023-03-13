@@ -32,5 +32,5 @@ https://onsen.nifty.com/yufuinshuuhen-onsen/onsen008744/
 https://onsen.nifty.com/geroshinai-onsen/onsen002524/
 https://onsen.nifty.com/dougoonsen-onsen/onsen005026/
 https://onsen.nifty.com/sapporo-onsen/onsen000043/
-- 外部サービスの画像素材・音声素材を使用した場合は、必ずサービス名とURLを明記してください。
+https://onsen.nifty.com/aomori-onsen/onsen000318/
 - 使用しない場合は、使用素材の項目をREADMEから削除してください。
